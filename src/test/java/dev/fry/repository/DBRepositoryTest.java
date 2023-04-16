@@ -9,8 +9,6 @@ import java.sql.SQLException;
 import java.util.Comparator;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class DBRepositoryTest implements ICategoryTreeTest {
 
     /*
