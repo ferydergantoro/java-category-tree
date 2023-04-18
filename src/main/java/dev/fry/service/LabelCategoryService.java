@@ -14,9 +14,7 @@ public class LabelCategoryService {
 
     public static String getLabelCategoryTree(List<Category> categories) {
 
-        List<CategoryLevel> categoryLevels = CategoryLevelService.buildCategoryLevel(
-            categories, categories.stream().map(Category::getParentId).distinct().sorted().toList().get(0)
-        );
+        List<CategoryLevel> categoryLevels = CategoryLevelService.buildCategoryLevel(categories);
 
         StringBuilder label = new StringBuilder();
 
