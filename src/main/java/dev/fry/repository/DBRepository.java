@@ -1,6 +1,7 @@
 package dev.fry.repository;
 
 import dev.fry.db.DBConnection;
+import dev.fry.db.DBUtils;
 import dev.fry.model.Category;
 
 import java.sql.ResultSet;
@@ -34,7 +35,7 @@ public class DBRepository implements DBRepositoryInterface {
 
         try {
 
-            if (!dbConnection.isTableExisting(CATEGORY_TABLE))
+            if (!DBUtils.isTableExisting(CATEGORY_TABLE))
 
                 dbConnection.executeUpdateQuery(
                     "CREATE TABLE " + CATEGORY_TABLE + " (\n" +

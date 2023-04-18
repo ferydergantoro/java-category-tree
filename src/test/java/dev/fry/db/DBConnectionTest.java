@@ -40,12 +40,10 @@ class DBConnectionTest {
     @Test
     void tableExistingTest() {
 
-        DBConnection dbConnection = DBConnection.getInstance();
-
-        try { Assertions.assertTrue(dbConnection.isTableExisting(DBRepositoryInterface.CATEGORY_TABLE)); }
+        try { Assertions.assertTrue(DBUtils.isTableExisting(DBRepositoryInterface.CATEGORY_TABLE)); }
         catch (SQLException e) { throw new RuntimeException(e); }
         finally {
-            try { dbConnection.closeConnection(); }
+            try { DBConnection.getInstance().closeConnection(); }
             catch (SQLException e) { System.err.println(e.getMessage()); }
         }
     }

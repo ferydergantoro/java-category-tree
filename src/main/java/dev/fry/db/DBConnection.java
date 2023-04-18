@@ -61,21 +61,4 @@ public class DBConnection {
     /*public int updateQuery(PreparedStatement preparedStatement) throws SQLException {
         return preparedStatement.executeUpdate();
     }*/
-
-    public boolean isTableExisting(String tableName) throws SQLException {
-
-        PreparedStatement preparedStatement = getConnection().prepareStatement(
-            "SELECT * FROM information_schema.tables WHERE table_name = ? LIMIT 1"
-        );
-
-        preparedStatement.setString(1, tableName.toUpperCase());
-
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        String tableNameDB = resultSet.next() ? resultSet.getString("table_name") : null;
-
-        closeConnection();
-
-        return tableNameDB != null && tableName.equalsIgnoreCase(tableNameDB);
-    }
 }
