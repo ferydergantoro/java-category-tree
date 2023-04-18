@@ -23,13 +23,13 @@ public class CategoryLevelService {
 
     private static List<CategoryLevel> buildCategoryLevel(List<Category> categories, long parentId) {
 
-        List<CategoryLevel> categoryLevels = new ArrayList<>();
-
-        if (CollectionUtils.isNotEmpty(categories)) categories.stream()
-                .filter(c -> parentId == c.getParentId())
-                .sorted(Comparator.comparing(Category::getSequence))
-                .map(CategoryLevel::new)
-                .collect(Collectors.toList());
+        List<CategoryLevel> categoryLevels = (CollectionUtils.isNotEmpty(categories)) ? (
+                categories.stream()
+                        .filter(c -> parentId == c.getParentId())
+                        .sorted(Comparator.comparing(Category::getSequence))
+                        .map(CategoryLevel::new)
+                        .collect(Collectors.toList())
+        ) : new ArrayList<>();
 
         for (CategoryLevel cl : categoryLevels) cl.setChildren(buildCategoryLevel(categories, cl.getId()));
 
