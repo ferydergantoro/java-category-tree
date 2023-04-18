@@ -16,13 +16,7 @@ class CategoryLevelServiceTest implements ICategoryTreeTest {
      *      1. Computers & Tablets
      *      2. Networking
      */
-    @Test
-    void buildFirstCategoryLevelTest() {
-
-        List<CategoryLevel> categoryLevels =  CategoryLevelService.buildCategoryLevel(
-            CATEGORIES_MOCK, CATEGORIES_MOCK.stream().map(Category::getParentId).distinct().sorted().toList().get(0)
-        );
-
+    private void buildCategoryLevel1st(List<CategoryLevel> categoryLevels) {
         Assertions.assertEquals(categoryLevels.size(), 2);
         Assertions.assertEquals(categoryLevels.get(0).getName(), "Computers & Tablets");
         Assertions.assertEquals(categoryLevels.get(1).getName(), "Networking");
@@ -40,12 +34,7 @@ class CategoryLevelServiceTest implements ICategoryTreeTest {
      *          2.1. Firewalls
      *          2.2. Modems
      */
-    @Test
-    void buildSecondCategoryLevelTest() {
-
-        List<CategoryLevel> categoryLevels =  CategoryLevelService.buildCategoryLevel(
-            CATEGORIES_MOCK, CATEGORIES_MOCK.stream().map(Category::getParentId).distinct().sorted().toList().get(0)
-        );
+    private void buildCategoryLevel2nd(List<CategoryLevel> categoryLevels) {
 
         List<CategoryLevel> computerChildrenCategoryLevels = categoryLevels.get(0).getChildren();
         Assertions.assertEquals(computerChildrenCategoryLevels.size(), 5);
@@ -68,12 +57,7 @@ class CategoryLevelServiceTest implements ICategoryTreeTest {
      *          1.2.2. Business PCs
      *          1.2.3. Workstations
      */
-    @Test
-    void buildThridCategoryLevelTest() {
-
-        List<CategoryLevel> categoryLevels =  CategoryLevelService.buildCategoryLevel(
-            CATEGORIES_MOCK, CATEGORIES_MOCK.stream().map(Category::getParentId).distinct().sorted().toList().get(0)
-        );
+    private void buildCategoryLevel3rd(List<CategoryLevel> categoryLevels) {
 
         List<CategoryLevel> computerChildrenCategoryLevels = categoryLevels.get(0).getChildren();
         Assertions.assertEquals(computerChildrenCategoryLevels.size(), 5);
@@ -94,4 +78,41 @@ class CategoryLevelServiceTest implements ICategoryTreeTest {
         Assertions.assertTrue(networkChildrenCategoryLevels.get(0).getChildren().isEmpty());
         Assertions.assertTrue(networkChildrenCategoryLevels.get(1).getChildren().isEmpty());
     }
+
+    private List<CategoryLevel> buildCategoryLevel(List<Category> categories) {
+        return CategoryLevelService.buildCategoryLevel(categories);
+    }
+
+    private void buildCategoryLevelTestNullOrEmpty(List<CategoryLevel> categoryLevels) {
+        Assertions.assertEquals(categoryLevels.size(), 0);
+    }
+
+    @Test
+    void buildCategoryLevelTest1st() {
+        buildCategoryLevel1st(buildCategoryLevel(CATEGORIES_MOCK));
+        buildCategoryLevel1st(buildCategoryLevel(UNSORTED_CATEGORIES_MOCK));
+    }
+
+    @Test
+    void buildCategoryLevelTest2nd() {
+        buildCategoryLevel2nd(buildCategoryLevel(CATEGORIES_MOCK));
+        buildCategoryLevel2nd(buildCategoryLevel(UNSORTED_CATEGORIES_MOCK));
+    }
+
+    @Test
+    void buildCategoryLevelTest3rd() {
+        buildCategoryLevel3rd(buildCategoryLevel(CATEGORIES_MOCK));
+        buildCategoryLevel3rd(buildCategoryLevel(UNSORTED_CATEGORIES_MOCK));
+    }
+
+    @Test
+    void buildCategoryLevelTestNullOrEmpty() {
+        buildCategoryLevelTestNullOrEmpty(buildCategoryLevel(List.of()));
+    }
+
+    @Test
+    void buildCategoryLevelTestNull() {
+        buildCategoryLevelTestNullOrEmpty(buildCategoryLevel(null));
+    }
+
 }
