@@ -12,34 +12,20 @@ import java.util.List;
 class DBRepositoryTest implements ICategoryTreeTest {
 
     /*
-     *  Load data categories from database
+     *  Load data and count categories from database
      */
     @Test
-    void fetchCategoriesTest() {
+    void fetchAndCountCategoriesTest() {
 
         DBRepository dbRepository = new DBRepository();
 
         try {
             dbRepository.initTableData();
 
-            Assertions.assertFalse(dbRepository.fetchCategories().isEmpty());
-        }
-        catch (SQLException e) { throw new RuntimeException(e); }
-        finally { dbRepository.closeConnection(); }
-    }
+            List<Category> categories = dbRepository.fetchCategories();
 
-    /*
-     *  Count data categories from database
-     */
-    @Test
-    void countCategoriesTest() {
-
-        DBRepository dbRepository = new DBRepository();
-
-        try {
-            dbRepository.initTableData();
-
-            Assertions.assertEquals(dbRepository.fetchCategories().size(), dbRepository.countData());
+            Assertions.assertFalse(categories.isEmpty());
+            Assertions.assertEquals(categories.size(), dbRepository.countData());
         }
         catch (SQLException e) { throw new RuntimeException(e); }
         finally { dbRepository.closeConnection(); }
